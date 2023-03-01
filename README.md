@@ -129,7 +129,7 @@ type T = {
   - [x] Partial
   - [ ] ReadonlyDeep
   - [ ] MutableDeep
-  - [x] RequiredDeep
+  - [ ] RequiredDeep
   - [x] PartialDeep
   - [x] Update
   - [x] Record
