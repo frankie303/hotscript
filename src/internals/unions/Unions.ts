@@ -1,5 +1,4 @@
 import { Call, Eval, Fn, PartialApply, unset, _ } from "../core/Core";
-import { Functions } from "../functions/Functions";
 import { UnionToTuple } from "../helpers";
 import { Std } from "../std/Std";
 import { Tuples } from "../tuples/Tuples";
@@ -105,5 +104,22 @@ export namespace Unions {
     return: this["args"] extends [infer union, ...any]
       ? UnionToTuple<union>
       : never;
+  }
+
+  /**
+   * `Unions.NonNullable` excludes null and undefined from the union type.
+   * @param union - any union type.
+   * @returns a union which is excluded by null and undefined.
+   * @example
+   * ```ts
+   * type T0 = Call<Unions.NonNullable, "a" | 1 | null | undefined>; // 1 | "a"
+   * type T1 = Pipe<"a" | 1 | null | undefined, [U.NonNullable]>; // 1 | "a"
+   * type T2 = Eval<Unions.NonNullable<"a" | 1 | null | undefined>>; // 1 | "a"
+   * ```
+   */
+  export type NonNullable<union = unset> = PartialApply<NonNullableFn, [union]>;
+
+  interface NonNullableFn extends Fn {
+    return: this["arg0"] extends infer union ? Std._NonNullable<union> : never;
   }
 }
